@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Страны и столицы</title>
+<style>
+:root{--bg:#eef2f1;--ink:#14292e;--mut:#5d7276;--card:#fff;--line:#cfdad8;--acc:#e8a317;--ok:#1f8a5b;--bad:#c4412f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1c20;--ink:#e8f0ee;--mut:#8fa6a9;--card:#17292e;--line:#2a4046;--ok:#4cc38a;--bad:#ef7a68}}
+:root[data-theme="dark"]{--bg:#0f1c20;--ink:#e8f0ee;--mut:#8fa6a9;--card:#17292e;--line:#2a4046;--ok:#4cc38a;--bad:#ef7a68}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.4}
+main{max-width:640px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:30px;margin:8px 0 4px;letter-spacing:-.5px}
+p.sub{color:var(--mut);margin:0 0 20px;font-family:system-ui,sans-serif;font-size:15px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cont{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:16px;text-align:left;min-height:96px;display:flex;flex-direction:column;justify-content:space-between}
+.cont b{font-size:19px}
+.bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;background:var(--ok)}
+.small{font-family:system-ui,sans-serif;font-size:13px;color:var(--mut)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.back{background:none;border:0;font-family:system-ui,sans-serif;font-size:15px;padding:8px 0;color:var(--mut)}
+.list{display:flex;flex-direction:column;gap:8px}
+.row{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:2px solid var(--line);border-radius:10px;padding:14px 16px;font-size:18px;text-align:left}
+.row.ok{border-color:var(--ok)}.row.bad{border-color:var(--bad)}
+.mark{font-family:system-ui,sans-serif;font-size:15px}
+.ok .mark{color:var(--ok)}.bad .mark{color:var(--bad)}
+.q{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:24px 18px}
+.q h2{font-size:28px;margin:0 0 4px}
+.opts{display:grid;gap:10px;margin-top:18px}
+.opt{background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:14px;font-size:19px;text-align:left}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,var(--card))}
+.opt.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 18%,var(--card))}
+.seg{display:inline-flex;border:2px solid var(--line);border-radius:10px;overflow:hidden;font-family:system-ui,sans-serif;font-size:14px}
+.seg button{background:var(--card);border:0;padding:8px 12px}.seg button.on{background:var(--ink);color:var(--bg)}
+input{width:100%;font:inherit;font-size:20px;padding:14px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);margin-top:18px}
+.go{margin-top:10px;width:100%;background:var(--acc);color:#14292e;border:0;border-radius:10px;padding:14px;font-size:18px;font-weight:bold}
+.res{margin-top:16px;font-size:19px;font-weight:bold}
+.res.ok{color:var(--ok)}.res.bad{color:var(--bad)}
+.next{margin-top:12px;width:100%;background:var(--ink);color:var(--bg);border:0;border-radius:10px;padding:14px;font-size:17px}
+</style></head><body><main id="app"></main>
+<script>
+const RAW={
+"Европа":"Австрия:Вена,Албания:Тирана,Андорра:Андорра-ла-Велья,Беларусь:Минск,Бельгия:Брюссель,Болгария:София,Босния и Герцеговина:Сараево,Ватикан:Ватикан,Великобритания:Лондон,Венгрия:Будапешт,Германия:Берлин,Греция:Афины,Дания:Копенгаген,Ирландия:Дублин,Исландия:Рейкьявик,Испания:Мадрид,Италия:Рим,Латвия:Рига,Литва:Вильнюс,Лихтенштейн:Вадуц,Люксембург:Люксембург,Мальта:Валлетта,Молдова:Кишинёв,Монако:Монако,Нидерланды:Амстердам,Норвегия:Осло,Польша:Варшава,Португалия:Лиссабон,Россия:Москва,Румыния:Бухарест,Сан-Марино:Сан-Марино,Северная Македония:Скопье,Сербия:Белград,Словакия:Братислава,Словения:Любляна,Украина:Киев,Финляндия:Хельсинки,Франция:Париж,Хорватия:Загреб,Черногория:Подгорица,Чехия:Прага,Швейцария:Берн,Швеция:Стокгольм,Эстония:Таллин",
+"Азия":"Азербайджан:Баку,Армения:Ереван,Афганистан:Кабул,Бангладеш:Дакка,Вьетнам:Ханой,Грузия:Тбилиси,Израиль:Иерусалим,Индия:Нью-Дели,Индонезия:Джакарта,Иордания:Амман,Ирак:Багдад,Иран:Тегеран,Казахстан:Астана,Камбоджа:Пномпень,Катар:Доха,Кыргызстан:Бишкек,Китай:Пекин,Кувейт:Кувейт,Лаос:Вьентьян,Ливан:Бейрут,Малайзия:Куала-Лумпур,Монголия:Улан-Батор,Мьянма:Нейпьидо,Непал:Катманду,ОАЭ:Абу-Даби,Пакистан:Исламабад,Саудовская Аравия:Эр-Рияд,Северная Корея:Пхеньян,Сингапур:Сингапур,Сирия:Дамаск,Таджикистан:Душанбе,Таиланд:Бангкок,Туркменистан:Ашхабад,Турция:Анкара,Узбекистан:Ташкент,Филиппины:Манила,Шри-Ланка:Шри-Джаяварденепура-Котте,Южная Корея:Сеул,Япония:Токио,Бахрейн:Манама,Бруней:Бандар-Сери-Бегаван,Бутан:Тхимпху,Восточный Тимор:Дили,Йемен:Сана,Кипр:Никосия,Мальдивы:Мале,Оман:Маскат,Палестина:Рамалла",
+"Африка":"Алжир:Алжир,Ангола:Луанда,Гана:Аккра,Египет:Каир,Замбия:Лусака,Зимбабве:Хараре,Кабо-Верде:Прая,Камерун:Яунде,Кения:Найроби,Конго (ДР):Киншаса,Кот-д'Ивуар:Ямусукро,Ливия:Триполи,Мадагаскар:Антананариву,Мали:Бамако,Марокко:Рабат,Мозамбик:Мапуту,Намибия:Виндхук,Нигер:Ниамей,Нигерия:Абуджа,Руанда:Кигали,Сенегал:Дакар,Сомали:Могадишо,Судан:Хартум,Танзания:Додома,Тунис:Тунис,Уганда:Кампала,Чад:Нджамена,Эфиопия:Аддис-Абеба,Эритрея:Асмэра,ЮАР:Претория,Бенин:Порто-Ново,Ботсвана:Габороне,Буркина-Фасо:Уагадугу,Бурунди:Гитега,Габон:Либревиль,Гамбия:Банжул,Гвинея:Конакри,Гвинея-Бисау:Бисау,Джибути:Джибути,Экваториальная Гвинея:Малабо,Эсватини:Мбабане,Коморы:Морони,Конго (Республика):Браззавиль,Лесото:Масеру,Либерия:Монровия,Маврикий:Порт-Луи,Мавритания:Нуакшот,Малави:Лилонгве,Сан-Томе и Принсипи:Сан-Томе,Сейшелы:Виктория,Сьерра-Леоне:Фритаун,Того:Ломе,ЦАР:Банги,Южный Судан:Джуба",
+"Северная Америка":"Беллиз:Бельмопан,Гаити:Порт-о-Пренс,Гватемала:Гватемала,Гондурас:Тегусигальпа,Доминиканская Республика:Санто-Доминго,Канада:Оттава,Коста-Рика:Сан-Хосе,Куба:Гавана,Мексика:Мехико,Никарагуа:Манагуа,Панама:Панама,Сальвадор:Сан-Сальвадор,США:Вашингтон,Ямайка:Кингстон,Багамы:Нассау,Антигуа и Барбуда:Сент-Джонс,Барбадос:Бриджтаун,Гренада:Сент-Джорджес,Доминика:Розо,Сент-Китс и Невис:Бастер,Сент-Люсия:Кастри,Сент-Винсент и Гренадины:Кингстаун,Тринидад и Тобаго:Порт-оф-Спейн",
+"Южная Америка":"Аргентина:Буэнос-Айрес,Боливия:Сукре,Бразилия:Бразилиа,Венесуэла:Каракас,Гайана:Джорджтаун,Колумбия:Богота,Парагвай:Асунсьон,Перу:Лима,Суринам:Парамарибо,Уругвай:Монтевидео,Чили:Сантьяго,Эквадор:Кито",
+"Австралия и Океания":"Австралия:Канберра,Вануату:Порт-Вила,Кирибати:Тарава,Новая Зеландия:Веллингтон,Папуа — Новая Гвинея:Порт-Морсби,Самоа:Апиа,Соломоновы Острова:Хониара,Тонга:Нукуалофа,Фиджи:Сува,Микронезия:Паликир,Маршалловы Острова:Маджуро,Науру:Ярен,Палау:Нгерулмуд,Тувалу:Фунафути"};
+const DATA={};for(const k in RAW)DATA[k]=RAW[k].split(",").map(s=>{const[i,c]=s.split(":");return{n:i,c}});
+const ALL=Object.values(DATA).flat();
+let best={};try{best=JSON.parse(localStorage.getItem("cap_best")||"{}")}catch(e){}
+let mode="choose",Q=[],i=0,wrong=[],score=0,cont="",answered=false;
+const $=document.getElementById("app");
+const norm=s=>s.toLowerCase().replace(/ё/g,"е").replace(/[^а-яa-z0-9]/g,"");
+const sh=a=>a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+const g=id=>document.getElementById(id);
+function home(){
+ $.innerHTML=`<h1>Страны и столицы</h1><p class="sub">Выбери материк — тест начнётся сразу.</p><div class="seg" style="margin-bottom:16px"><button data-m="choose" class="${mode=="choose"?"on":""}">Выбирать ответ</button><button data-m="type" class="${mode=="type"?"on":""}">Писать ответ</button></div><div class="grid">`+
+ Object.keys(DATA).map(k=>{const t=DATA[k].length,b=best[k];
+ return `<button class="cont" data-k="${k}"><b>${k}</b><span><span class="small">${t} стран${b!=null?" · лучший результат "+b+"/"+t:""}</span><div class="bar"><i style="width:${(b||0)/t*100}%"></i></div></span></button>`}).join("")+`</div>`;
+ $.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{mode=b.dataset.m;home()});
+ $.querySelectorAll(".cont").forEach(b=>b.onclick=()=>start(b.dataset.k,DATA[b.dataset.k]));window.scrollTo(0,0)}
+function start(k,items){cont=k;Q=sh(items);i=0;wrong=[];score=0;show()}
+function show(){answered=false;const x=Q[i],N=Q.length;
+ let body;
+ if(mode=="choose"){
+  const w=sh(DATA[cont].filter(y=>y.c!==x.c)).slice(0,3).map(y=>y.c);
+  body=`<div class="opts">`+sh([x.c,...w]).map(c=>`<button class="opt" data-c="${c}">${c}</button>`).join("")+`</div>`}
+ else body=`<input id="in" autocomplete="off" placeholder="Напиши столицу"><button class="go" id="go">Проверить</button>`;
+ $.innerHTML=`<div class="top"><button class="back" id="b">← Материки</button><span class="small">${cont} · ${i+1} из ${N}</span></div><div class="bar" style="margin:0 0 14px"><i style="width:${i/N*100}%"></i></div><div class="q"><h2>${x.n}</h2><div class="small">Какая столица?</div>${body}<div id="r"></div></div>`;
+ g("b").onclick=home;
+ if(mode=="choose")$.querySelectorAll(".opt").forEach(b=>b.onclick=()=>done(b.dataset.c===x.c,b.dataset.c));
+ else{const e=g("in");e.focus();const f=()=>done(norm(e.value)===norm(x.c),e.value);g("go").onclick=f;e.onkeydown=ev=>{if(ev.key==="Enter")f()}}}
+function done(ok,val){if(answered||(!val&&mode=="type"))return;answered=true;const x=Q[i];
+ if(ok)score++;else wrong.push(x);
+ if(mode=="choose")$.querySelectorAll(".opt").forEach(b=>{b.disabled=true;if(b.dataset.c===x.c)b.classList.add("ok");else if(b.dataset.c===val)b.classList.add("bad")});
+ else{g("in").disabled=true;g("go").style.display="none"}
+ const last=i+1>=Q.length;
+ g("r").innerHTML=`<div class="res ${ok?"ok":"bad"}">${ok?"Верно!":"Неверно. Столица — "+x.c}</div>`+(ok&&mode=="choose"?"":`<button class="next" id="nx">${last?"Результат":"Дальше"}</button>`);
+ const go=()=>{i++;i<Q.length?show():finish()};
+ if(ok&&mode=="choose")setTimeout(go,650);else{const n=g("nx");n.focus();n.onclick=go}}
+function finish(){const N=Q.length,full=N===DATA[cont].length;
+ if(full&&(best[cont]==null||score>best[cont])){best[cont]=score;try{localStorage.setItem("cap_best",JSON.stringify(best))}catch(e){}}
+ $.innerHTML=`<h1>${score} из ${N}</h1><p class="sub">${cont}${wrong.length?"":" — без ошибок!"}</p>`+
+ (wrong.length?`<div class="list">`+wrong.map(x=>`<div class="row bad"><span>${x.n}</span><span class="mark">${x.c}</span></div>`).join("")+`</div>`:"")+
+ (wrong.length?`<button class="next" id="rw">Повторить ошибки (${wrong.length})</button>`:"")+
+ `<button class="next" id="ag" style="background:var(--acc);color:#14292e">Пройти заново</button><button class="next" id="hm" style="background:none;color:var(--ink);border:2px solid var(--line)">К материкам</button>`;
+ if(wrong.length)g("rw").onclick=()=>start(cont,wrong.slice());
+ g("ag").onclick=()=>start(cont,DATA[cont]);g("hm").onclick=home;window.scrollTo(0,0)}
+home();
+</script></body></html>
